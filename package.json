@@ -5,12 +5,15 @@
     "hardware": "node client-hardware.js",
     "debug-hardware": "node --debug client-hardware.js",
     "server": "node server.js",
-    "debug-server": "node --debug server.js"
+    "debug-server": "node --debug server.js",
+    "aws": "node aws-upload.js"
   },
   "dependencies": {
+    "aws-sdk": "^2.7.25",
     "promise": "^7.1.1",
     "raspbian": "^1.0.8",
     "raspicam": "^0.2.13",
+    "request": "^2.79.0",
     "socket.io": "^1.7.2",
     "socket.io-client": "^1.7.2"
   }

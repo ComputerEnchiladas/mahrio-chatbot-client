@@ -1,6 +1,7 @@
 var Path = require('path'),
   Promise = require('promise'),
-  RaspiCam = require('raspicam');
+  RaspiCam = require('raspicam'),
+  AWS = require('../aws/aws-upload');
 
 const EXEC = Promise.denodeify( require('child_process').exec );
 
@@ -66,11 +67,14 @@ var setModeFunction = function( mode ){
   camera.on('read', onRead);
   camera.on('stop', onStop);
 };
-var notifyClients = function(){
-  if( socket ) {
-    socket.emit('event:camera:done', currentTime);
-    currentTime = null;
-  }
+var notifyClients = function( filepath ){
+  var filename = t.split('/')[ t.split('/').length - 1];
+  AWS({filename: filename, filepath: filepath}, function(){
+    if( socket ) {
+      socket.emit('event:camera:done', filename);
+      currentTime = null;
+    }
+  });
 };
 var onExit = function(){
   currentTime = currentTime || new Date().toISOString();
@@ -81,16 +85,16 @@ var onExit = function(){
     EXEC(MP4box + videoPath + 'video' + currentTime + '.mp4')
       .then( function(){
         EXEC('rm ' + videoPath + 'video.h264')
-          .then( function(){ notifyClients(); });
+          .then( function(){ notifyClients(videoPath + 'video' + currentTime + '.mp4'); });
       });
   } else if (type === 'timelapse') {
     EXEC(avconv + videoPath + 'timelapse' + currentTime + '.mp4')
       .then( function(){
         EXEC('rm ' + imagePath + 'myImg*')
-          .then( function(){ notifyClients(); });
+          .then( function(){ notifyClients(videoPath + 'timelapse' + currentTime + '.mp4'); });
       });
   } else {
-    notifyClients();
+    notifyClients(imagePath + 'myImg_' + currentTime + '.jpg');
   }
 };
 var onRead = function(){};

@@ -13,8 +13,9 @@ io.on('connection', function( socket ) {
 
   socket.emit('event:camera:mode', 'photo');
   socket.emit('event:take:action');
-  socket.on('event:camera:done', function(){
+  socket.on('event:camera:done', function(uri){
     console.log('Camera done');
+    console.log( uri );
   });
 });
 
