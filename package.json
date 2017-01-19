@@ -1,0 +1,14 @@
+{
+  "name": "mahrio-chatbot",
+  "version": "0.0.1",
+  "scripts": {
+    "hardware": "node client-hardware.js",
+    "debug-hardware": "node --debug client-hardware.js",
+    "server": "node server.js",
+    "debug-server": "node --debug server.js"
+  },
+  "dependencies": {
+    "socket.io": "^1.7.2",
+    "socket.io-client": "^1.7.2"
+  }
+}
