@@ -10,8 +10,8 @@ var camera = null,
   currentTime = null,
   type = 'video',
   isAvailable = true,
-  videoPath = Path.normalize(__dirname + '/videos/'),
-  imagePath = Path.normalize(__dirname + '/images/'),
+  videoPath = Path.normalize(__dirname + '/../videos/'),
+  imagePath = Path.normalize(__dirname + '/../images/'),
   avconv = 'avconv -r 2 -i ' + imagePath + 'myImg_%04d.jpg -r 2 -vcodec libx264 -crf 20 -g 15 ',
   MP4box = 'MP4Box  -fps 23  -add ' + videoPath + 'video.h264 ';
 
@@ -112,7 +112,7 @@ module.exports = function( ){
   return {
     start: startFunction,
     stop: stopFunction,
-    setSocket: function( io ) {
+    setSocket: function( client ) {
       socket = client;
     },
     setMode: setModeFunction,
