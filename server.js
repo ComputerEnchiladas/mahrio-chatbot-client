@@ -12,6 +12,9 @@ io.on('connection', function( socket ) {
   console.log('Client connected.');
 
   socket.emit('event:take:action');
+  socket.on('event:camera:done', function(){
+    console.log('Camera done');
+  });
 });
 
 console.log('listening');

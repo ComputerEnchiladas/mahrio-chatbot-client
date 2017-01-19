@@ -8,6 +8,8 @@
     "debug-server": "node --debug server.js"
   },
   "dependencies": {
+    "promise": "^7.1.1",
+    "raspbian": "^1.0.8",
     "socket.io": "^1.7.2",
     "socket.io-client": "^1.7.2"
   }

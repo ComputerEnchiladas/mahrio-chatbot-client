@@ -5,7 +5,7 @@ var Path = require('path'),
 const EXEC = Promise.denodeify( require('child_process').exec );
 
 var camera = null,
-  sockets = null,
+  socket = null,
   currentName = null,
   currentTime = null,
   type = 'video',
@@ -67,8 +67,8 @@ var setModeFunction = function( mode ){
   camera.on('stop', onStop);
 };
 var notifyClients = function(){
-  if( sockets ) {
-    sockets.emit('event:camera:done', currentTime);
+  if( socket ) {
+    socket.emit('event:camera:done', currentTime);
     currentTime = null;
   }
 };
@@ -112,8 +112,8 @@ module.exports = function( ){
   return {
     start: startFunction,
     stop: stopFunction,
-    setIOSockets: function( io ) {
-      sockets = io.sockets;
+    setSocket: function( io ) {
+      socket = client;
     },
     setMode: setModeFunction,
     status: function(){
