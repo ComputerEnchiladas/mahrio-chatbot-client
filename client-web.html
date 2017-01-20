@@ -36,8 +36,8 @@
 
 <img src="" id="image" style="display: none" />
 
-<video controls id="video" sty>
-    <source src="/video.mp4" type="video/mp4"/>
+<video controls id="video">
+    <source src="" type="video/mp4"/>
     <!-- fallback -->
     Your browser does not support the <code>video</code> element.
 </video>
@@ -54,7 +54,8 @@
     var img = document.getElementById('image');
     var selectMode = document.getElementById('selectMode');
     var takeAction = document.getElementById('takeAction');
-    var video = document.querySelector("#video > source");
+    var video = document.querySelector("#video");
+    var videoSrc = document.querySelector("#video > source");
 
     // GET CAMERA STATUS
     socket.emit('client:get:status');
@@ -74,7 +75,7 @@
             img.src = uri;
             img.style.display = 'block';
         } else {
-            video.src = uri;
+            videoSrc.src = uri;
             video.style.display = 'block';
         }
         takeAction.removeAttribute('disabled');
