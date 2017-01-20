@@ -72,7 +72,7 @@ var notifyClients = function( filepath ){
   AWS({filename: filename, filepath: filepath}, function( uri ){
     if( socket ) {
       // NOTIFY WHEN CAMERA FINISHED
-      socket.emit('event:camera:done', uri);
+      socket.emit('hardware:camera:done', uri);
       isAvailable = true;
     } else {
       isAvailable = true;

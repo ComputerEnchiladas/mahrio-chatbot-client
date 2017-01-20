@@ -89,6 +89,7 @@
 
     selectMode.addEventListener('change', function(){
         takeAction.innerHTML = 'Take ' + selectMode.value.capitalizeFirstLetter();
+        socket.emit('client:camera:mode', selectMode.value);
     });
 
 </script>
