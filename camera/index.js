@@ -69,9 +69,9 @@ var setModeFunction = function( mode ){
 };
 var notifyClients = function( filepath ){
   var filename = filepath.split('/')[ filepath.split('/').length - 1];
-  AWS({filename: filename, filepath: filepath}, function(){
+  AWS({filename: filename, filepath: filepath}, function( uri ){
     if( socket ) {
-      socket.emit('event:camera:done', filename);
+      socket.emit('event:camera:done', uri);
       currentTime = null;
     }
   });
