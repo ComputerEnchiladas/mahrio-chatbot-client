@@ -68,7 +68,7 @@ var setModeFunction = function( mode ){
   camera.on('stop', onStop);
 };
 var notifyClients = function( filepath ){
-  var filename = t.split('/')[ t.split('/').length - 1];
+  var filename = filepath.split('/')[ filepath.split('/').length - 1];
   AWS({filename: filename, filepath: filepath}, function(){
     if( socket ) {
       socket.emit('event:camera:done', filename);
