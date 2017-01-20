@@ -20,7 +20,7 @@ io.on('connection', function( socket ) {
 
   // SET CAMERA MODE
   socket.on('client:camera:mode', function(mode){
-    socket.emit('hardware:camera:mode', mode);
+    io.sockets.emit('hardware:camera:mode', mode);
   });
 
   // EXECUTE CAMERA ACTION
