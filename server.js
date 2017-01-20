@@ -1,11 +1,18 @@
 var http = require('http')
   , server = http.createServer( handler )
-  , io = require('socket.io')( server );
+  , io = require('socket.io')( server )
+  , fs = require('fs')
+  , path = require('path')
+  , indexHTML = '';
 
-function handler( request, reply ) {
-  reply.writeHead(200);
-  reply.write("<script type='text/javascript' src='https://cdn.socket.io/socket.io-1.0.0.js'></script>");
-  reply.end('Running!');
+fs.readFile(path.resolve(__dirname,'client-web.html'), function(err, data){
+  indexHTML = data;
+});
+
+function handler( request, res ) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write( indexHTML );
+  res.end();
 }
 
 io.on('connection', function( socket ) {

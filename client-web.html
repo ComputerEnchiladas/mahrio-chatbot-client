@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Client</title>
+</head>
+<body>
+<button id="takeAction">
+    Capture Image
+</button>
+
+<img src="" id="image" style="width: 100%" />
+
+</body>
+<script type='text/javascript' src='https://cdn.socket.io/socket.io-1.0.0.js'></script>
+<script type="text/javascript">
+    var socket = io();
+    var img = document.getElementById('image');
+    socket.on('event:camera:done', function(uri){
+        img.src = uri;
+    });
+    document.getElementById('takeAction').addEventListener('click', function(){
+       socket.emit('event:take:action');
+    });
+
+</script>
+</html>
