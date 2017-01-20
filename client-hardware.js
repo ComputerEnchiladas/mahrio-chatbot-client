@@ -1,5 +1,5 @@
 var io = require('socket.io-client'),
-  client = io.connect('http://127.0.0.1:8080', {reconnect: true}),
+  client = io.connect('http://192.168.0.8:8080', {reconnect: true}),
   camera = require('./camera/index')();
 
 camera.setSocket( client );

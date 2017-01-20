@@ -21,6 +21,6 @@ module.exports = function( dataObj, callback ){
       console.log(err);
     }
     var uri = "https://s3-us-west-1.amazonaws.com/mahrio-iot/";
-    callback( uri+encode(dataObj.filename) );
+    callback( uri+encodeURIComponent( dataObj.filename) );
   });
 };
