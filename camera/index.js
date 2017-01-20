@@ -71,6 +71,7 @@ var notifyClients = function( filepath ){
   var filename = filepath.split('/')[ filepath.split('/').length - 1];
   AWS({filename: filename, filepath: filepath}, function( uri ){
     if( socket ) {
+      // NOTIFY WHEN CAMERA FINISHED
       socket.emit('event:camera:done', uri);
       isAvailable = true;
     } else {

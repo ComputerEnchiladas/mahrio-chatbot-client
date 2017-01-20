@@ -6,13 +6,20 @@ camera.setSocket( client );
 client.on('connect', function( ){
   console.log('we are connected');
 
-  client.on('event:camera:mode', function( mode ){
+  // SET CAMERA MODE
+  client.on('hardware:camera:mode', function( mode ){
     console.log('Setting mode to: ', mode );
     camera.setMode( mode );
   });
-  client.on('event:take:action', function(){
+
+  // EXECUTE ACTION ON HARDWARE
+  client.on('hardware:take:action', function(){
     console.log('taking action');
-    console.log('Camera status: ', camera.status() );
     camera.start();
+  });
+
+  // GET STATUS OF HARDWARE
+  client.on('hardware:get:status', function(){
+    client.emit('hardware:camera:status', camera.status() );
   });
 });

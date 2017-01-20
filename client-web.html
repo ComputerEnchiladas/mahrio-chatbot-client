@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 </head>
 <style type="text/css">
+    body {
+        margin: 0;
+        font-family: sans-serif;
+    }
     #takeAction {
         width: 100%;
         background: #e3e3e3;
@@ -14,25 +18,78 @@
         padding: 1em;
         cursor: pointer;
     }
-    #image { width: 100%; }
+    #image, #video { width: 100%; display: none; }
 </style>
 <body>
-<button id="takeAction">
-    Capture Image
-</button>
+<div style="width: 50%; float:left;">
+    <button id="takeAction">
+        Take Video
+    </button>
+</div>
+<div style="width: 50%; float: left;">
+    <select style="width: 100%; height: 50px; font-size: 14pt;" id="selectMode">
+        <option value="photo">Photo</option>
+        <option value="timelapse">Timelapse</option>
+        <option selected value="video">Video</option>
+    </select>
+</div>
 
-<img src="" id="image" />
+<img src="" id="image" style="display: none" />
+
+<video controls id="video" sty>
+    <source src="/video.mp4" type="video/mp4"/>
+    <!-- fallback -->
+    Your browser does not support the <code>video</code> element.
+</video>
 
 </body>
+<script type="text/javascript">
+    String.prototype.capitalizeFirstLetter = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    };
+</script>
 <script type='text/javascript' src='https://cdn.socket.io/socket.io-1.0.0.js'></script>
 <script type="text/javascript">
     var socket = io();
     var img = document.getElementById('image');
-    socket.on('event:camera:done', function(uri){
-        img.src = uri;
+    var selectMode = document.getElementById('selectMode');
+    var takeAction = document.getElementById('takeAction');
+    var video = document.querySelector("#video > source");
+
+    // GET CAMERA STATUS
+    socket.emit('client:get:status');
+    socket.on('client:camera:status', function(status){
+       console.log('Camera Status: ', status);
+        // based on status change button name
+        selectMode.value = status.mode;
+        takeAction.innerHTML = 'Take ' + selectMode.value.capitalizeFirstLetter();
+        if( !status.available ) {
+            takeAction.setAttribute('disabled', true);
+        }
     });
-    document.getElementById('takeAction').addEventListener('click', function(){
-       socket.emit('event:take:action');
+
+    // CAMERA FINISHED
+    socket.on('client:camera:done', function(uri){
+        if( uri.slice( uri.length - 4, uri.length) === '.jpg') {
+            img.src = uri;
+            img.style.display = 'block';
+        } else {
+            video.src = uri;
+            video.style.display = 'block';
+        }
+        takeAction.removeAttribute('disabled');
     });
+
+    // ENGAGE CAMERA
+    takeAction.addEventListener('click', function(){
+        socket.emit('client:take:action');
+        img.style.display = 'none';
+        video.style.display = 'none';
+    });
+
+    selectMode.addEventListener('change', function(){
+        takeAction.innerHTML = 'Take ' + selectMode.value.capitalizeFirstLetter();
+    });
+
 </script>
 </html>

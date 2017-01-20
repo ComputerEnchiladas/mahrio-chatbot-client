@@ -18,15 +18,30 @@ function handler( request, res ) {
 io.on('connection', function( socket ) {
   console.log('Client connected.');
 
-  socket.emit('event:camera:mode', 'photo');
-  socket.on('event:take:action', function(){
-    io.sockets.emit('event:take:action');
+  // SET CAMERA MODE
+  socket.on('client:camera:mode', function(mode){
+    socket.emit('hardware:camera:mode', mode);
   });
-  socket.on('event:camera:done', function(uri){
-    console.log('Camera done');
-    console.log( uri );
-    io.sockets.emit('event:camera:done', uri );
+
+  // EXECUTE CAMERA ACTION
+  socket.on('client:take:action', function(){
+    io.sockets.emit('hardware:take:action');
   });
+
+  // NOTIFY WHEN CAMERA FINISHED
+  socket.on('hardware:camera:done', function(uri){
+    console.log('Camera done, url', uri);
+    io.sockets.emit('client:camera:done', uri );
+  });
+
+  // GET CAMERA STATUS
+  socket.on('client:get:status', function(){
+    io.sockets.emit('hardware:get:status');
+  });
+  socket.on('hardware:camera:status', function(mode){
+    io.sockets.emit('client:camera:status', mode);
+  });
+
 });
 
 console.log('listening');
