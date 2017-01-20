@@ -20,8 +20,8 @@ var startFunction = function(){
   if( !isAvailable ) { return; }
   isAvailable = false;
 
+  currentTime = new Date().toISOString();
   if( type === 'photo' ) {
-    currentTime = new Date().toISOString();
     camera.set('output', imagePath + 'myImg_' + currentTime + '.jpg');
   } else if( type === 'video'){
     camera.set('output', videoPath + 'video.h264');
@@ -72,14 +72,13 @@ var notifyClients = function( filepath ){
   AWS({filename: filename, filepath: filepath}, function( uri ){
     if( socket ) {
       socket.emit('event:camera:done', uri);
-      currentTime = null;
+      isAvailable = true;
+    } else {
+      isAvailable = true;
     }
   });
 };
 var onExit = function(){
-  currentTime = currentTime || new Date().toISOString();
-
-  isAvailable = true;
 
   if( type === 'video' ) {
     EXEC(MP4box + videoPath + 'video' + currentTime + '.mp4')
