@@ -30,4 +30,6 @@ io.on('connection', function( socket ) {
 });
 
 console.log('listening');
-server.listen( process.env.PORT || 8080, process.env.PORT ? 'localhost' : '192.168.0.8');
+console.log('URL: ', process.env.PORT ? 'localhost' : '127.0.0.1');
+console.log('PORT: ', process.env.PORT || 8080);
+server.listen( process.env.PORT || 8080, process.env.PORT ? 'localhost' : '127.0.0.1');
