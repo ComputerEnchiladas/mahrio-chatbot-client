@@ -30,4 +30,4 @@ io.on('connection', function( socket ) {
 });
 
 console.log('listening');
-server.listen( 8080, '192.168.0.8');
+server.listen( process.env.PORT || 8080, process.env.NODE_URL || '192.168.0.8');
