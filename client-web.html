@@ -85,6 +85,7 @@
         socket.emit('client:take:action');
         img.style.display = 'none';
         video.style.display = 'none';
+        takeAction.setAttribute('disabled', true);
     });
 
     selectMode.addEventListener('change', function(){
