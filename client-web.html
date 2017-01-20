@@ -75,7 +75,9 @@
             img.src = uri;
             img.style.display = 'block';
         } else {
-            videoSrc.src = uri;
+            videoSrc.setAttribute('src', uri);
+            video.load();
+            video.play();
             video.style.display = 'block';
         }
         takeAction.removeAttribute('disabled');
