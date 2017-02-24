@@ -1,5 +1,5 @@
 var io = require('socket.io-client'),
-  client = io.connect('https://mahrio-remote-camera-dev.herokuapp.com', {reconnect: true}),
+  client = io.connect('http://192.168.2.10:8080', {reconnect: true}),
   camera = require('./camera/index')();
 
 camera.setSocket( client );
